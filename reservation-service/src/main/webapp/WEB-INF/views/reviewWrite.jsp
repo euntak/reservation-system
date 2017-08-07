@@ -11,18 +11,6 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
 	<title>네이버 예약</title>
 	<link href="/resources/css/style.css" rel="stylesheet">
-	<script src="/resources/lib/handlebars.min.js"></script>
-	<script id = "thumb_image_templ"  type="text/x-handlebars-template">
-		
-		<li class="item">
-			<a href="#" class="anchor">
-				<span class="spr_book ico_del">삭제</span>
-			</a>
-			<img src="{{data}}" width="130" alt="" class="item_thumb">
-			<span class="img_border"></span>
-		</li>
-		
-	</script>
 </head>
 
 <body>
@@ -128,8 +116,5 @@
 		</div>
 	</footer>
 </body>
-<script src="/resources/lib/jquery.min.js"></script>
-<script src="/resources/lib/component.js"></script>
-<script src="/resources/js/common/util.js"></script>
-<script src="/resources/js/reviewWrite.js"></script>
+<script data-main="/resources/js/reviewWrite" src="/resources/lib/require.js"></script>
 </html>

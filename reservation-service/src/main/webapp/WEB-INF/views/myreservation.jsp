@@ -11,89 +11,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
 	<title>네이버 예약</title>
 	<link href="/resources/css/style.css" rel="stylesheet">
-	<script src="/resources/lib/handlebars.min.js"></script>
-
-	<!-- [Handlebars] 예약 확인 심플 템플릿  -->
-	<script id="simple_ticket_templ" type="text/x-handlebars-template">
-		<!--[D] 예약확정: .confirmed, 취소된 예약&이용완료: .used 추가 card -->
-		{{#if tickets.length}}
-		<li class="card {{status}}">
-			<div class=link_booking_details>
-				<div class="card_header">
-					<div class="left"></div>
-					<div class="middle">
-						<!--[D] 예약 신청중: .ico_clock, 예약확정&이용완료: .ico_check2, 취소된 예약: .ico_cancel 추가 spr_book2 -->
-						<i class="spr_book2 {{statusClass}}"></i>
-						<span class="tit">{{statusName}}</span>
-					</div>
-					<div class="right"></div>
-				</div>
-			</div>
-			{{#tickets}}
-			<article class="card_item" data-booking-id="{{rid}}">
-				<a href="#" class="link_booking_details">
-					<div class="card_body">
-						<div class="left"></div>
-						<div class="middle">
-							<div class="card_detail">
-								<em class="booking_number">No.{{rid}}</em>
-								<h4 class="tit">{{name}}</h4>
-								<ul class="detail">
-									<li class="item">
-										<span class="item_tit">일정</span>
-										<em class="item_dsc">
-											{{salesStart}}{{salesEnd}}
-										</em>
-									</li>
-									<li class="item">
-										<span class="item_tit">내역</span>
-										<em class="item_dsc">
-											{{details}}
-										</em>
-									</li>
-									<li class="item">
-										<span class="item_tit">상품</span>
-										<em class="item_dsc">
-											{{name}}
-										</em>
-									</li>
-									<li class="item">
-										<span class="item_tit">업체</span>
-										<em class="item_dsc">
-											{{placeName}}
-										</em>
-									</li>
-								</ul>
-								<div class="price_summary">
-									<span class="price_tit">결제 예정금액</span>
-									<em class="price_amount">
-										<span>{{totalPrice}}</span>
-										<span class="unit">원</span>
-									</em>
-								</div>
-								<!-- [D] 예약 신청중, 예약 확정 만 취소가능, 취소 버튼 클릭 시 취소 팝업 활성화 -->
-								{{#unless isCanceled}}
-								<div class="booking_cancel">
-									<button class="btn"><span>{{buttonName}}</span></button>
-								</div>
-								{{/unless}}
-							</div>
-						</div>
-						<div class="right"></div>
-					</div>
-					<div class="card_footer">
-						<div class="left"></div>
-						<div class="middle"></div>
-						<div class="right"></div>
-					</div>
-				</a>
-				<a href="#" class="fn fn-share1 naver-splugin btn_goto_share" title="공유하기"></a>
-			</article>
-		{{/tickets}}
-		</li>
-		{{/if}}
-	</script>
-
 </head>
 
 <body>
@@ -188,7 +105,5 @@
     <!--// 취소 팝업 -->
 
 </body>
-	<script src="/resources/lib/jquery.min.js"></script>
-	<script src="/resources/js/common/util.js"></script>
-	<script src="/resources/js/myreservation.js"></script>
+<script data-main="/resources/js/myreservation" src="/resources/lib/require.js"></script>
 </html>

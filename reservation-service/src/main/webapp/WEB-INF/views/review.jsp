@@ -12,7 +12,6 @@
     <title>네이버 예약</title>
     <link href="/resources/css/style.css" rel="stylesheet">
     <link href="/resources/css/photoviewer.css" rel="stylesheet">
-    <script src="/resources/lib/handlebars.min.js"></script>
 </head>
 
 <body>
@@ -29,51 +28,14 @@
 		</div>
         <div class="ct">
             <div class="wrap_review_list">
-                <script id="simple_product_templ" type="text/handlebars-template">
-                    <div class="review_header">
-                        <div class="top_title gr">
-                            <a href="/products/{{pid}}" class="btn_back" title="이전 화면으로 이동"> <i class="fn fn-backward1"></i> </a>
-                            <h2><a class="title" href="#">{{name}}</a></h2>
-                        </div>
-                    </div>
-                </script>
-
+                <%-- [HANDLEBARS] review/review-header --%>
                 <div class="section_review_list">
                     <div class="review_box">
                         <h3 class="title_h3">예매자 한줄평</h3>
                         <div class="short_review_area">
-                            <script id="comment_rating_templ" type="text/handlebars-template">
-                                <div class="grade_area">
-                                    <!-- [D] 별점 graph_value는 퍼센트 환산하여 width 값을 넣어줌 -->
-                                    <span class="graph_mask"> <em class="graph_value" style="width: 84%;"></em> </span>
-                                    <strong class="text_value"> <span>{{average}}</span> <em class="total">5.0</em> </strong>
-                                    <span class="join_count"><em class="green">{{totalCount}}건</em> 등록</span>
-                                </div>
-                            </script>
+                            <%-- [HANDLEBARS] review/review-rating--%>
                             <ul class="list_short_review">
-                            <script id="comment_templ" type="text/x-handlebars-template">
-                                {{#each comments}}
-                                <li class="list_item">
-                                    <div>
-                                        <div class="review_area">
-                                            {{#each images}}
-                                                <div class="thumb_area">
-                                                     {{#if @first}}
-                                                    <a href="#" data-cid="{{../cid}}" class="thumb" title="이미지 크게 보기"> <img width="90" height="90" class="img_vertical_top" src="/files/{{fileId}}" alt="리뷰이미지"> </a>
-                                                    <span class="img_count">{{../images.length}}</span>
-                                                     {{/if}}
-                                                </div>
-                                            {{/each}}
-                                            <h4 class="resoc_name">{{name}}</h4>
-                                            <p class="review">{{comment}}</p>
-                                        </div>
-                                        <div class="info_area">
-                                             <div class="review_info"> <span class="grade">{{score}}</span> <span class="name">{{nickname}}</span> <span class="date">{{modifyDate}}. 방문</span> </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                {{/each}}
-                            </script>
+                                <%-- [HANDLEBARS] review/review-comments --%>
                             </ul>
                         </div>
                         <p class="guide"> <i class="spr_book2 ico_bell"></i> <span>네이버 예약을 통해 실제 방문한 이용자가 남긴 평가입니다.</span> </p>
@@ -110,15 +72,11 @@
                 </div>
                 <div class="popup_content">
                     <ul class="photo_list">
-                        <script id="comment_photo_templ" type="text/x-handlebars-template">
-                            {{#each this}}
-                            <li class="item"> <img alt="" class="img_thumb" src="/files/{{fileId}}"></li>
-                            {{/each}}
-                        </script>
+                        <%-- [HANDLEBARS] comments/popup-photo-list --%>
                     </ul>
                 </div>
             </div>
         </div>
 </body>
-<script data-main="js/main" src="lib/require/require.js"></script>
+<script data-main="/resources/js/review" src="/resources/lib/require.js"></script>
 </html>
