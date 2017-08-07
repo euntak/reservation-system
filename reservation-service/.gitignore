@@ -7,5 +7,4 @@ target
 node_modules/
 .vscode/
 src/main/resources/
-gulpfile.js
 dist/

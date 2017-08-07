@@ -42,14 +42,6 @@ public class CommentDto {
         this.createDate = createDate;
     }
 
-    public String getModifyDate() {
-        return modifyDate;
-    }
-
-    public void setModifyDate(String modifyDate) {
-        this.modifyDate = modifyDate;
-    }
-
     public long getUserId() {
         return userId;
     }

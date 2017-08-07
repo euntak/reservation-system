@@ -26,7 +26,7 @@ public class ReservationServiceImpl implements ReservationService {
 		return list;
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional
 	@Override
 	public int updateReservaion(MyReservationDto reservation) {
 		long id = reservation.getRid();
