@@ -6,7 +6,7 @@
     <span class="join_count"><em class="green">{{total.totalCount}}건</em> 등록</span>
 </div>
 <ul class="list_short_review">
-    {{#each comments as |parent parentIndex|}}
-    {{> ../resources/templates/comments/comment-list}}
+    {{#each comments}}
+        {{> ../resources/templates/comments/comment-list}}
     {{/each}}
 </ul>
