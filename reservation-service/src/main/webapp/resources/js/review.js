@@ -1,20 +1,51 @@
-(function($) {
+requirejs.config({
 
-    var Review = extend(eg.Component, {
+    baseUrl: '/resources',
 
+    paths:{
+
+        'jquery': 'node_modules/jquery/dist/jquery.min',
+        'eg': 'node_modules/@egjs/component/dist/component',
+        'hbs': 'node_modules/require-handlebars-plugin/hbs',
+        'utils': 'js/common/util',
+        'Flicking': 'js/module/flicking_component',
+
+        'review/header': 'templates/review/review-header',
+        'review/rating': 'templates/review/review-rating',
+        'review/commentList': 'templates/review/review-comments',
+
+        'comments/popup-list': 'templates/comments/popup-photo-list'
+
+    },
+
+    shim:{
+        'Flicking':{
+            deps: ['jquery', 'eg', 'utils'],
+            exports: 'Flicking'
+        }
+    }
+});
+
+requirejs(['jquery', 'Flicking',
+        'hbs!review/header',
+        'hbs!review/rating',
+        'hbs!review/commentList',
+        'hbs!comments/popup-list'
+    ],
+
+function ($, Flicking, reviewHeader, reviewRating, commentsList, commentsPopupList) {
+
+    var Review = {
 
         init : function () {
             this.popupSlider = null;
-            this.commentsRating = {};
             this.comments = [];
-            this.Template = {};
             this.options = {
                 limit : 10,
                 offset : 0,
                 pathname : ''
             };
 
-            this.initialHandlebars();
             this.getInitComments();
             this.bindEvents();
         },
@@ -23,15 +54,6 @@
         bindEvents : function () {
             $('.short_review_area').on('click', '.thumb', this.openPhotoViewer.bind(this));
             $('.popup').on('click', 'label', this.closePhotoViewer.bind(this));
-        },
-
-
-        initialHandlebars : function() {
-
-            this.Template.simpleProduct = Handlebars.compile($('#simple_product_templ').html());
-            this.Template.commentRating = Handlebars.compile($('#comment_rating_templ').html());
-            this.Template.comment = Handlebars.compile($('#comment_templ').html());
-            this.Template.photoViewer = Handlebars.compile($('#comment_photo_templ').html());
         },
 
 
@@ -57,9 +79,8 @@
         },
 
         simpleProductRendering : function(res) {
-            var Templates = this.Template;
             var $container = $('.wrap_review_list');
-            $container.prepend(Templates.simpleProduct(res.total));
+            $container.prepend(reviewHeader(res.total));
         },
 
 
@@ -122,13 +143,12 @@
 
 
         commentInitRendering : function(res) {
-            var Templates = this.Template;
             this.totalCount = res.total.totalCount;
 
             var rating = (res.total.average / 5.0) * 100;
             var $commentContainer = $('.short_review_area');
 
-            $commentContainer.prepend(Templates.commentRating(res.total));
+            $commentContainer.prepend(reviewRating(res.total));
 
             // comment total rating (%)
             $('.graph_value').css('width', rating + '%');
@@ -136,10 +156,8 @@
 
 
         commentsRendering : function(res) {
-            var Templates = this.Template;
-
             var $commentList = $('.list_short_review');
-            $commentList.append(Templates.comment(res));
+            $commentList.append(commentsList(res));
         },
 
 
@@ -162,37 +180,39 @@
         openPhotoViewer : function(e) {
             e.preventDefault();
 
-            var Templates = this.Template;
-            var cid = $(e.target).data('cid');
+            var cid = $(e.target).closest('li').data('cid');
 
             var $photoViewer = $('#photoviewer');
             var $photoList = $('.photo_list');
+            var $popupTitle = $('.popup_title');
 
-            var filteredComment = this.comments.filter(function(comment, i) {
-                if(comment.cid === cid) return comment
+            var filteredComment = this.comments.filter(function(comment) {
+                if(comment.cid === cid) return comment;
             });
 
             var comment = filteredComment[0];
             var imageCount = comment.images.length;
 
-            $photoList.append(Templates.photoViewer(comment.images));
+            $photoList.append(commentsPopupList(comment.images));
 
             this.updatePreviewStatus({
                 index : 1,
                 size : imageCount
             });
 
-            this.popupSlider = new Flicking($('.photo_list'), {
-                autoStart: false,
-                circulation: false,
-                flicking: true,
-                viewTime: 300,
-            }).on({
-                afterMove: this.updatePreviewStatus.bind(this.options)
-            });
+            requirejs(['Flicking'], function(Flicking) {
+                this.popupSlider = new Flicking($photoList, {
+                    autoStart: false,
+                    circulation: false,
+                    flicking: true,
+                    viewTime: 300
+                }).on({
+                    afterMove: this.updatePreviewStatus.bind(this.options)
+                });
 
-            $('.popup_title').on('click', '.prev', this.popupSlider.move.bind(this.popupSlider, 'prev', 0));
-            $('.popup_title').on('click', '.nxt', this.popupSlider.move.bind(this.popupSlider, 'next', 0));
+                $popupTitle.on('click', '.prev', this.popupSlider.move.bind(this.popupSlider, 'prev', 0));
+                $popupTitle.on('click', '.nxt', this.popupSlider.move.bind(this.popupSlider, 'next', 0));
+            }.bind(this));
 
             $photoViewer.show();
         },
@@ -251,7 +271,6 @@
 
         infiniteScroll : function(isActive) {
             var $window = $(window);
-            console.log(this);
 
             if(isActive) {
                 $(document).scroll(function() {
@@ -265,10 +284,9 @@
         }
 
 
-    });
+    };
 
 
-    var review = new Review();
-    review.infiniteScroll(true);
-    
-})($);
+    Review.init();
+    Review.infiniteScroll(true);
+});

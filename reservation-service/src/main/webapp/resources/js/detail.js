@@ -1,26 +1,27 @@
 //requireJS 기본 설정 부분
 requirejs.config({
 
-    baseUrl: '/resources/js',
+    baseUrl: '/resources',
 
     paths:{
-        'jquery': '../node_modules/jquery/dist/jquery.min',
-        'eg': '../node_modules/@egjs/component/dist/component.min',
-        'hbs': '../node_modules/require-handlebars-plugin/hbs',
-        'utils': 'common/util',
-        'NaverMap': 'module/naverMap',
-        'Flicking': 'module/flicking_component',
 
-        'comments/wrapper': '../templates/comments/comments-wrapper',
-        'comments/popupp-list': '../templates/comments/popup-photo-list',
+        'jquery': 'node_modules/jquery/dist/jquery.min',
+        'eg': 'node_modules/@egjs/component/dist/component',
+        'hbs': 'node_modules/require-handlebars-plugin/hbs',
+        'utils': 'js/common/util',
+        'NaverMap': 'js/module/naverMap',
+        'Flicking': 'js/module/flicking_component',
 
-        'detail/confirm-button': '../templates/detail/confirm-button',
-        'detail/event-info': '../templates/detail/event-info',
-        'detail/image-slider': '../templates/detail/image-slider',
-        'detail/path-info': '../templates/detail/path-info',
-        'detail/product-info': '../templates/detail/product-info',
-        'detail/product-links': '../templates/detail/product-links',
-        'detail/toggle-content': '../templates/detail/toggle-content'
+        'comments/wrapper': 'templates/comments/comments-wrapper',
+        'comments/popupp-list': 'templates/comments/popup-photo-list',
+
+        'detail/confirm-button': 'templates/detail/confirm-button',
+        'detail/event-info': 'templates/detail/event-info',
+        'detail/image-slider': 'templates/detail/image-slider',
+        'detail/path-info': 'templates/detail/path-info',
+        'detail/product-info': 'templates/detail/product-info',
+        'detail/product-links': 'templates/detail/product-links',
+        'detail/toggle-content': 'templates/detail/toggle-content'
     },
 
     shim:{
@@ -32,7 +33,7 @@ requirejs.config({
 });
 
 //requireJS를 활용하여 모듈 로드
-requirejs(['jquery', 'Flicking', 'NaverMap',
+requirejs(['jquery',
         'hbs!comments/wrapper',
         'hbs!comments/popupp-list',
         'hbs!detail/confirm-button',
@@ -44,7 +45,7 @@ requirejs(['jquery', 'Flicking', 'NaverMap',
         'hbs!detail/toggle-content'
     ],
 
-    function ($, Flicking, NaverMap,
+    function ($,
               commentsWrapper, commentsPopupList,
               detailConfirmBtn, detailEventInfo, detailImageSlider,
               detailPathInfo, detailProductInfo, detailProductLinks,
@@ -94,17 +95,26 @@ requirejs(['jquery', 'Flicking', 'NaverMap',
                     this.titleAreaRendering(res);
                     this.detailInfoRendering(res.product);
 
-                    this.mainSlider = new Flicking($slider, {
-                        autoStart: false,
-                        circulation: false,
-                        flicking: true,
-                        viewTime: 300
-                    }).on({
-                        afterMove: this.updateMainStatus.bind(this.options)
-                    });
 
-                    $btnContainer.on('click', '.prev', this.mainSlider.move.bind(this.mainSlider, 'prev', 0));
-                    $btnContainer.on('click', '.nxt', this.mainSlider.move.bind(this.mainSlider, 'next', 0));
+                    requirejs(['Flicking'], function(Flicking) {
+
+                        this.mainSlider = new Flicking($slider, {
+                            autoStart: false,
+                            circulation: false,
+                            flicking: true,
+                            viewTime: 300
+                        }).on({
+                            afterMove: this.updateMainStatus.bind(this.options)
+                        });
+
+                        $btnContainer.on('click', '.prev', this.mainSlider.move.bind(this.mainSlider, 'prev', 0));
+                        $btnContainer.on('click', '.nxt', this.mainSlider.move.bind(this.mainSlider, 'next', 0));
+
+                    }.bind(this));
+
+
+
+
 
                 }.bind(this));
 
@@ -146,7 +156,9 @@ requirejs(['jquery', 'Flicking', 'NaverMap',
                 $('.detail_info_group').prepend(detailProductInfo(product));
                 $('.box_store_info').append(detailPathInfo(product));
 
-                NaverMap.init();
+                requirejs(['NaverMap'], function(NaverMap) {
+                    NaverMap.init();
+                });
             },
 
 
@@ -321,17 +333,22 @@ requirejs(['jquery', 'Flicking', 'NaverMap',
                     size : imageCount
                 });
 
-                this.popupSlider = new Flicking($photoList, {
-                    autoStart: false,
-                    circulation: false,
-                    flicking: true,
-                    viewTime: 300
-                }).on({
-                    afterMove: this.updatePreviewStatus.bind(this.options)
-                });
+                requirejs(['Flicking'], function(Flicking) {
+                    this.popupSlider = new Flicking($photoList, {
+                        autoStart: false,
+                        circulation: false,
+                        flicking: true,
+                        viewTime: 300
+                    }).on({
+                        afterMove: this.updatePreviewStatus.bind(this.options)
+                    });
 
-                $popupTitle.on('click', '.prev', this.popupSlider.move.bind(this.popupSlider, 'prev', 0));
-                $popupTitle.on('click', '.nxt', this.popupSlider.move.bind(this.popupSlider, 'next', 0));
+                    $popupTitle.on('click', '.prev', this.popupSlider.move.bind(this.popupSlider, 'prev', 0));
+                    $popupTitle.on('click', '.nxt', this.popupSlider.move.bind(this.popupSlider, 'next', 0));
+                }.bind(this));
+
+
+
 
                 $photoViewer.show();
             },

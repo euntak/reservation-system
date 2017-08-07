@@ -24,14 +24,11 @@ requirejs.config({
 });
 
 //requireJS를 활용하여 모듈 로드
-requirejs(
-    [
-    'jquery', 'TicketCounter',
-        'hbs!reserve/reserve-container',
-        'hbs!reserve/reserve-form',
-        'helpers/getPrice'
-    ],
-    function ($, TicketCounter, reserveContainer, reserveForm) {
+requirejs(['jquery',
+    'hbs!reserve/reserve-container',
+    'hbs!reserve/reserve-form',
+    'helpers/getPrice'],
+    function ($, reserveContainer, reserveForm) {
 
     $(function () {
 
@@ -69,17 +66,19 @@ requirejs(
                 var priceType = $el.data('pricetype');
                 var discountPrice = this.convertPriceRemoveComma(this.product.prices[priceType-1].discountPrice);
 
-                // new로 계속 생성하는데 메모리에 문제가 없을까? function scope안에 있어서 힙에 계속 쌓일까, ?
-                var ticketCounter = new TicketCounter({ min : 0, max : 10 , discountPrice : discountPrice});
+                requirejs(['TicketCounter'], function(TicketCounter) {
+                    // new로 계속 생성하는데 메모리에 문제가 없을까? function scope안에 있어서 힙에 계속 쌓일까, ?
+                    var ticketCounter = new TicketCounter({ min : 0, max : 10 , discountPrice : discountPrice});
 
-                ticketCounter.on({
-                    afterIncrement : this.updateTicketUI.bind(this, ticketCounter.options, $el),
-                    afterDecrement : this.updateTicketUI.bind(this, ticketCounter.options, $el)
-                });
+                    ticketCounter.on({
+                        afterIncrement : this.updateTicketUI.bind(this, ticketCounter.options, $el),
+                        afterDecrement : this.updateTicketUI.bind(this, ticketCounter.options, $el)
+                    });
 
-                (variation === 'plus') && ticketCounter.increment($counter.val());
-                (variation === 'minus') && ticketCounter.decrement($counter.val());
-
+                    (variation === 'plus') && ticketCounter.increment($counter.val());
+                    (variation === 'minus') && ticketCounter.decrement($counter.val());
+                }.bind(this));
+                
                 // product type에 따른 [예매 내용] 총 갯수 업데이트
                 this.updateBookingInfo();
 
@@ -151,7 +150,7 @@ requirejs(
                 var $children = $wrapper.children('.qty');
 
                 // $.map + reduce 를 통한 total 구하기
-                var total = $.map($children, function(item, i) {
+                var total = $.map($children, function(item) {
                     var $counter = $(item).find('input[type="tel"]');
                     return $counter.val() * 1;
                 }).reduce(function(prev, next){
@@ -223,7 +222,7 @@ requirejs(
 
 
             convertDateFormattoISO : function(date) {
-                var isoDate = new Date(date);
+                var isoDate = new Date(date); // 2017-02-12 Fri +9
                 var dayLabel = ['(일)', '(월)', '(화)', '(수)', '(목)', '(금)', '(토)'];
                 var label = dayLabel[isoDate.getDay()];
                 return isoDate.toISOString().slice(0, 10).replace(/-/g, ".").concat('.' + label);
