@@ -12,97 +12,6 @@
     <title>네이버 예약</title>
     <link href="/resources/css/style.css" rel="stylesheet">
     <link href="/resources/css/photoviewer.css" rel="stylesheet">
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=xl20W4odLg2Q1bfmwO48&submodules=geocoder"></script>
-    <script src="/resources/lib/handlebars.min.js"></script>
-
-    <!-- 이미지 슬라이더 템플릿  -->
-    <script id="images_templ" type="text/x-handlebars-template">
-        {{#each files}}
-            <li class="item" style="width: 414px;"> <img alt="" class="img_thumb" src="/files/{{id}}"> <span class="img_bg"></span>
-                <div class="visual_txt">
-                    <div class="visual_txt_inn">
-                        <h2 class="visual_txt_tit"> <span>{{lookup ../this "name"}}</span> </h2>
-                        <p class="visual_txt_dsc">{{lookup ../this "description"}}</p>
-                    </div>
-                </div>
-            </li>
-        {{/each}}
-    </script>
-
-    <!-- 이미지 슬라이더 안에 Button들 링크 걸어주는 템플릿  -->
-    <script id="goto_templ" type="text/x-handlebars-template">
-        <a class="btn_goto_home" title="홈페이지" href="{{homepage}}" target="siteUrl"> <i class="fn fn-home1"></i> </a>
-        <a class="btn_goto_tel" title="전화" href="tel:{{tel}}"> <i class="fn fn-call1"></i> </a>
-        <a class="btn_goto_mail" title="이메일" href="mailto:{{email}}"> <i class="fn fn-mail1"></i> </a>
-    </script>
-
-    <!-- 펼쳐보기 / 접기 안에있는 내용 템플릿  -->
-    <script id="content_templ" type="text/x-handlebars-template">  
-        <p class="dsc">
-            {{content}}
-        </p>
-    </script>
-
-    <!-- 이벤트 정보 템플릿  -->
-    <script id="event_templ" type="text/x-handlebars-template">
-        {{#if event}}
-        <div class="event_info_box">
-            <div class="event_info_tit">
-                <h4 class="in_tit"> <i class="spr_book ico_evt"></i> <span>이벤트 정보</span> </h4>
-            </div>
-            <div class="event_info">
-                <div class="in_dsc">{{{event}}}</div>
-            </div>
-        </div>
-        {{/if}}
-    </script>
-
-    <!-- 예매하기, 매진, 판매완료를 위한 템플릿  -->
-    <script id="btn_templ" type="text/x-handlebars-template">
-        <button type="button" class="bk_btn"> 
-            <i class="fn fn-nbooking-calender2"></i> 
-            <span>{{statusText}}</span>
-        </button> 
-    </script>
-
-    <!-- 상세정보 템플릿 -->
-    <script id="info_templ" type="text/x-handlebars-template">
-        <li class="detail_info_lst">
-            <strong class="in_tit">[소개]</strong>
-            <p class="in_dsc">
-                {{content}}
-            </p>
-        </li>
-    </script>
-
-    <!-- 오시는길 템플릿  -->
-    <script id="path_templ" type="text/x-handlebars-template">
-        <h3 class="store_name">{{placeName}}</h3>
-        <div class="store_info">
-            <div class="store_addr_wrap">
-                <span class="fn fn-pin2"></span>
-                <p class="store_addr store_addr_bold">{{placeLot}} </p>
-                <p class="store_addr">
-                    <span class="addr_old">지번</span>
-                    <span class="addr_old_detail">{{placeStreet}} </span>
-                </p>
-                <p class="store_addr addr_detail">{{placeDetail}}</p>
-            </div>
-            <div class="lst_store_info_wrap">
-                <ul class="lst_store_info">
-                    <li class="item"> <span class="item_lt"> <i class="fn fn-home1"></i> <span class="sr_only">홈페이지</span> </span> <span class="item_rt"> <a href="{{homepage}}" class="store_tel">{{homepage}}</a></span> </li>
-                    <li class="item"> <span class="item_lt"> <i class="fn fn-call2"></i> <span class="sr_only">전화번호</span> </span> <span class="item_rt"> <a href="tel:{{tel}}" class="store_tel">{{tel}}</a></span> </li>
-                    <li class="item"> <span class="item_lt"> <i class="fn fn-mail1"></i> <span class="sr_only">이메일</span> </span> <span class="item_rt"> <a href="mailto:{{email}}" class="store_tel">{{email}}</a></span> </li>
-                </ul>
-            </div>
-        </div>
-        <!-- [D] 모바일 브라우저에서 접근 시 column2 추가와 btn_navigation 요소 추가 -->
-        <div class="bottom_common_path column2">
-            <a href="#" class="btn_path"> <i class="fn fn-path-find2"></i> <span>길찾기</span> </a>
-            <a hewf="#" class="btn_navigation before"> <i class="fn fn-navigation2"></i> <span>내비게이션</span> </a>
-        </div>
-    </script>
-
 </head>
 
 <body>
@@ -181,41 +90,11 @@
                     <div class="review_box">
                         <h3 class="title_h3">예매자 한줄평</h3>
                         <div class="short_review_area">
-                            <script id="comment_templ" type="text/x-handlebars-template">
-                                <div class="grade_area">
-                                    <!-- [D] 별점 graph_value는 퍼센트 환산하여 width 값을 넣어줌 -->
-                                    <span class="graph_mask"> <em class="graph_value" style="width: 84%;"></em> </span>
-                                    <strong class="text_value"> <span>{{total.average}}</span> <em class="total">5.0</em> </strong>
-                                    <span class="join_count"><em class="green">{{total.totalCount}}건</em> 등록</span>
-                                </div>
-                                <ul class="list_short_review">
-                                    {{#each comments}}
-                                    <li class="list_item">
-                                        <div>
-                                            <div class="review_area">
-                                                {{#each images}} 
-                                                    <div class="thumb_area">
-                                                         {{#if @first}}  
-                                                        <a href="#" data-cid="{{../cid}}" class="thumb" title="이미지 크게 보기"> <img width="90" height="90" class="img_vertical_top" src="/files/{{id}}" alt="리뷰이미지"> </a>  
-                                                        <span class="img_count">{{../images.length}}</span> 
-                                                         {{/if}}  
-                                                    </div>
-                                                {{/each}} 
-                                                <h4 class="resoc_name">{{name}}</h4>
-                                                <p class="review">{{comment}}</p>
-                                            </div>
-                                            <div class="info_area">
-                                                 <div class="review_info"> <span class="grade">{{score}}</span> <span class="name">{{nickname}}</span> <span class="date">{{modifyDate}}. 방문</span> </div> 
-                                            </div>
-                                        </div>
-                                    </li>
-                                    {{/each}}
-                                </ul>
-                            </script>
+                            <!-- [Handlebars] comments sction  -->
                         </div>
                         <p class="guide"> <i class="spr_book2 ico_bell"></i> <span>네이버 예약을 통해 실제 방문한 이용자가 남긴 평가입니다.</span> </p>
                     </div>
-                    <a class="btn_review_more" href="/review"> <span>예매자 한줄평 더보기</span> <i class="fn fn-forward1"></i> </a>
+                    <a class="btn_review_more" href="#"> <span>예매자 한줄평 더보기</span> <i class="fn fn-forward1"></i> </a>
                 </div>
                 <div class="section_info_tab">
                     <!-- [D] tab 선택 시 anchor에 active 추가 -->
@@ -289,18 +168,12 @@
             </div>
             <div class="popup_content">
                 <ul class="photo_list">
-                    <script id="comment_photo_templ" type="text/x-handlebars-template">
-                        {{#each this}}
-                        <li class="item"> <img alt="" class="img_thumb" src="/files/{{id}}"></li>
-                        {{/each}}
-                    </script>
+                    <%--photo popup template--%>
                 </ul>
             </div>
         </div>
     </div>
 </body>
-<script src="/resources/lib/jquery.min.js"></script>
-<script src="/resources/js/module/flicking.js"></script>
-<script src="/resources/js/module/naverMap.js"></script>
-<script src="/resources/js/detail.js"></script>
+<script data-main="/resources/js/detail" src="/resources/lib/require.js"></script>
+<script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=xl20W4odLg2Q1bfmwO48&submodules=geocoder"></script>
 </html>

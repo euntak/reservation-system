@@ -1,5 +1,5 @@
 /**
- * 
+ * category solip~~~
  */
 (function(window) {
 	'use strict';

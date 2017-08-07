@@ -1,24 +1,35 @@
 package kr.or.connect.reservation.config;
 
-import org.springframework.beans.factory.annotation.Value;
+import kr.or.connect.reservation.interceptor.LoggingHandlerInterceptor;
+import kr.or.connect.reservation.resolver.CommentWebArgumentResolver;
+import kr.or.connect.reservation.interceptor.LoginInterceptor;
+import kr.or.connect.reservation.resolver.UserWebArgumentResolver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import java.util.List;
+
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "kr.or.connect.reservation.controller" })
+@ComponentScan(basePackages = { "kr.or.connect.reservation.controller" ,"kr.or.connect.reservation.interceptor"})
 public class ServletContextConfig extends WebMvcConfigurerAdapter {
 
-	@Value("${spring.uploadfile.max-size}")
-	private long uploadMaxFileSize;
+	@Autowired
+	LoginInterceptor loginInterceptor;
+
+	@Autowired
+	LoggingHandlerInterceptor loggingHandlerInterceptor;
+
 
 	@Bean
 	public ViewResolver viewResolver() {
@@ -29,16 +40,23 @@ public class ServletContextConfig extends WebMvcConfigurerAdapter {
 		return viewResolver;
 	}
 
-	@Bean
-	public MultipartResolver multipartResolver() {
-		org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
-		multipartResolver.setMaxUploadSize(uploadMaxFileSize); // 1024 * 1024 * 10
-		return multipartResolver;
-	}
-
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		// webapp/resources 경로를 의미
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(loginInterceptor)
+				.addPathPatterns("/my").addPathPatterns("/products/{id}/reserve");
+		registry.addInterceptor(loggingHandlerInterceptor)
+				.addPathPatterns("/**");
+	}
+
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+		argumentResolvers.add(new CommentWebArgumentResolver()); //사용자가 작성한 객체
+		argumentResolvers.add(new UserWebArgumentResolver());
 	}
 }

@@ -1,0 +1,33 @@
+ <div class="top_title">
+    <a href="/products/{{id}}" class="btn_back" title="이전 화면으로 이동"> <i class="fn fn-backward1"></i> </a>
+    <h2><span class="title">{{name}}</span></h2>
+</div>
+<div class="group_visual">
+    <div class="container_visual" style="width: 414px;">
+        <ul class="visual_img">
+            <!-- [Handlebars] image list  -->
+            <li class="item" style="width: 414px;">
+                {{#each files}}
+                    {{> ../resources/templates/reserve/reserve-image}}
+                {{/each}}
+                <div class="preview_txt" data-id="{{id}}">
+                    <h2 class="preview_txt_tit">{{name}}</h2>
+                    <em class="preview_txt_dsc">₩{{minCost}} ~ </em>
+                    <em class="preview_txt_dsc">{{salesStart}}~{{salesEnd}}, 잔여티켓 {{ticketCount}}매</em>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="section_store_details">
+    <!-- [Handlebars] store-details-info  -->
+    {{> ../resources/templates/reserve/store-details}}
+</div>
+<div class="section_booking_ticket">
+    <div class="ticket_body">
+        <!-- [Handlebars] count-control-templ -->
+        {{#prices}}
+            {{> ../resources/templates/reserve/count-control}}
+        {{/prices}}
+    </div>
+</div>

@@ -1,0 +1,22 @@
+<!-- Store Detail  -->
+<div class="store_details">
+    <h3 class="in_tit">{{name}}</h3>
+    <p class="dsc">
+        장소 : {{placeStreet}}({{placeLot}})<br> 기간 : {{salesStart}}~{{salesEnd}}
+    </p>
+    <h3 class="in_tit">관람시간</h3>
+    <p class="dsc">
+        {{observationTime}}(입장마감 {{deadLineTime}})
+    </p>
+    <h3 class="in_tit">요금</h3>
+    <p class="dsc">
+        {{#prices}}
+            {{#getPrice this}}
+                {{{adultCost}}}
+                {{{teenagerCost}}}
+                {{{kizCost}}}
+                {{{etcCost}}}
+            {{/getPrice}}
+        {{/prices}}
+    </p>
+</div>

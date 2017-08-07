@@ -1,0 +1,32 @@
+{
+  "name": "reservation-service",
+  "version": "1.0.0",
+  "description": "reservation-service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@egjs/component": "^2.0.0-rc",
+    "handlebars": "^4.0.10",
+    "jquery": "^3.2.1",
+    "require-handlebars-plugin": "^1.0.0",
+    "requirejs-plugins": "^1.0.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^3.7.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-livereload": "^3.8.1",
+    "gulp-minify-html": "^1.0.6",
+    "gulp-sass": "^3.1.0",
+    "gulp-uglify": "^3.0.0",
+    "gulp-uglifycss": "^1.0.8",
+    "gulp-webserver": "^0.9.1",
+    "handlebars": "^4.0.10",
+    "jquery": "^3.2.1",
+    "text": "github:requirejs/text"
+  }
+}

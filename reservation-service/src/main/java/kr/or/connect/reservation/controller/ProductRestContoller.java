@@ -30,15 +30,15 @@ public class ProductRestContoller {
 			@RequestParam(value = "limit", required = false) String limit,
 			@RequestParam(value = "offset", required = false) String offset,
 			@RequestParam(value = "cid", required = false) String cid) {
-		
+
 		int limitVal = (limit != null) ? Integer.parseInt(limit) : this.LIMIT;
 		int offsetVal = (offset != null) ? Integer.parseInt(offset) : this.OFFSET;
-		Long categoryId = (cid != null) ? Long.parseLong(cid) : 1;
+		Long categoryId = (cid != null) ? Long.parseLong(cid) : 0;
 		
 		if(categoryId != null && categoryId > 0) {
 			return service.getProductsByCategoryId(categoryId, limitVal, offsetVal);
 		}
-		
+
 		return service.getAllProduct(limitVal, offsetVal);
 	}
 
@@ -56,7 +56,14 @@ public class ProductRestContoller {
 	
 	@GetMapping("/{id}/comments")
 	@ResponseStatus(HttpStatus.OK)
-	public Map<String, Object> getProductPreviewCommentsById(@PathVariable("id") Long id) {
-		return service.getProductPreviewComments(id);
+	public Map<String, Object> getProductPreviewCommentsById(
+			@PathVariable("id") Long id,
+			@RequestParam(value = "limit", required = false) String limit,
+			@RequestParam(value = "offset", required = false) String offset) {
+
+		int limitVal = (limit != null) ? Integer.parseInt(limit) : this.LIMIT;
+		int offsetVal = (offset != null) ? Integer.parseInt(offset) : this.OFFSET;
+
+		return service.getProductPreviewComments(id, limitVal, offsetVal);
 	}
 }

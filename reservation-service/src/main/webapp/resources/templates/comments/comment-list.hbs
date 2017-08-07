@@ -1,0 +1,20 @@
+<!-- 예매자 한줄평 item list handlebars -->
+<li class="list_item" data-cid="{{cid}}">
+    <div>
+        <div class="review_area">
+            <div class="thumb_area">
+                {{#each images}}
+                    {{#if @first}}
+                        <a href="#" class="thumb" title="이미지 크게 보기"><img width="90" height="90" class="img_vertical_top" src="/files/{{fileId}}" alt="리뷰이미지"> </a>
+                    {{/if}}
+                {{/each}}
+                <span class="img_count">{{images.length}}</span>
+            </div>
+            <h4 class="resoc_name">{{name}}</h4>
+            <p class="review">{{comment}}</p>
+        </div>
+        <div class="info_area">
+            <div class="review_info"> <span class="grade">{{score}}</span> <span class="name">{{nickname}}</span> <span class="date">{{modifyDate}}. 방문</span> </div>
+        </div>
+    </div>
+</li>

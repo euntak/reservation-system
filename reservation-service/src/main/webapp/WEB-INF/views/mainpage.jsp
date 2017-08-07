@@ -11,7 +11,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
     <title>네이버 예약</title>
     <link href="/resources/css/style.css" rel="stylesheet">
-    <script src="/resources/lib/handlebars.min.js"></script>
 </head>
 
 <body>
@@ -72,13 +71,6 @@
             <div class="section_event_tab">
                 <ul class="event_tab_lst tab_lst_min">
                     <!-- Category List HandlebarJS  -->
-                    <script id="category-template" type="text/x-handlebars-template">
-                        {{#each this}}
-                        <li class="item" data-category="{{id}}">
-                            <a class="anchor{{#if @first}} active{{/if}}{{#if @last}} last{{/if}}"><span>{{name}}</span></a>
-                        </li>
-                        {{/each}}
-                    </script>
                 </ul>
             </div>
             <div class="section_event_lst">
@@ -87,25 +79,14 @@
                     <!-- [D] lst_event_box 가 2컬럼으로 좌우로 나뉨, 더보기를 클릭할때마다 좌우 ul에 li가 추가됨 -->
                     <ul class="lst_event_box">
                         <!-- Product List HandlebarJS  -->
-                        <script id="product-template" type="text/x-handlebars-template">
-                            <li class="item" data-product="{{id}}">
-                                <a href="/products/{{id}}" class="item_book">
-                                    <div class="item_preview"> <img alt="{{name}}" class="img_thumb" src="/files/{{fileId}}"><span class="img_border"></span> </div>
-                                        <div class="event_txt">
-                                        <h4 class="event_txt_tit"> <span>{{name}}</span> <small class="sm">{{placeName}}</small> </h4>
-                                        <p class="event_txt_dsc">{{description}}</p>
-                                    </div>
-                                </a>
-                            </li>
-                        </script>
                     </ul>
                     <ul class="lst_event_box">
-                        
+                        <!-- Product List HandlebarJS  -->
                     </ul>
                     <!-- 더보기 -->
                     <div class="more">
                         <button class="btn"><span>더보기</span></button>
-                    </div>
+                   </div>
                 </div>
             </div>
         </div>
@@ -120,7 +101,5 @@
         </div>
     </footer>
 </body>
-<script src="/resources/lib/jquery.min.js"></script>
- <script src="/resources/js/module/flicking.js"></script> 
-<script src="/resources/js/main.js"></script>
+<script data-main="/resources/js/main" src="/resources/lib/require.js"></script>
 </html>

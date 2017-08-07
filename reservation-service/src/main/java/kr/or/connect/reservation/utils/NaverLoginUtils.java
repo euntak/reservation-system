@@ -29,9 +29,9 @@ public class NaverLoginUtils {
 				response.append(inputLine);
 			}
 			br.close();
-			System.out.println(response.toString());
+			//System.out.println(response.toString());
 		} catch (Exception e) {
-			System.out.println(e);
+			//System.out.println(e);
 		}
 
 		return response.toString();

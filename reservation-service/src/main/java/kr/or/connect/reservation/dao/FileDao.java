@@ -1,12 +1,11 @@
 package kr.or.connect.reservation.dao;
 
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.sql.DataSource;
 
+import kr.or.connect.reservation.utils.FileUploadException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -30,19 +29,21 @@ public class FileDao {
 		this.insertAction = new SimpleJdbcInsert(dataSource).withTableName("file").usingGeneratedKeyColumns("id");
 	}
 
-	public Long insert(FileDomain File) {
+	public Long insert(FileDomain File)  {
 		SqlParameterSource params = new BeanPropertySqlParameterSource(File);
 		return insertAction.executeAndReturnKey(params).longValue();
 	}
 	
 	public FileDomain selectById(long id) {
 		Map<String, ?> params = Collections.singletonMap("id", id);
+
 		FileDomain file = jdbc.queryForObject(FileSqls.SELECT_BY_ID, params, rowMapper);
-		
+
 		if(file == null) {
 			throw new EmptyResultDataAccessException(1);
 		}
 		
 		return file;
 	}
+
 }

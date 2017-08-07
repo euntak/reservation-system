@@ -34,8 +34,8 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, Object> getProductPreviewComments(Long id) {
-		return dao.selectProductPreviewComments(id);
+	public Map<String, Object> getProductPreviewComments(Long id, int limit, int offset) {
+		return dao.selectProductPreviewComments(id, limit, offset);
 	}
 
 	@Override
@@ -43,5 +43,7 @@ public class ProductServiceImpl implements ProductService {
 	public Map<String, Object> getReservableProduct(Long id) {
 		return dao.selectReservableProductById(id);
 	}
+
+
 	
 }

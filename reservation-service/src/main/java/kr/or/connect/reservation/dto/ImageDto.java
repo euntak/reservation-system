@@ -1,7 +1,8 @@
 package kr.or.connect.reservation.dto;
 
 public class ImageDto {
-	private long id;
+
+	private long fileId;
 	private String fileName;
 	private String saveFileName;
 	private long fileLength;
@@ -11,12 +12,14 @@ public class ImageDto {
 
 	}
 
-	public long getId() {
-		return id;
+
+	public long getFileId() {
+		return fileId;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setFileId(long fileId) {
+		this.fileId = fileId;
+
 	}
 
 	public String getFileName() {

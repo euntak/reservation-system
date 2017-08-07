@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +21,9 @@ import kr.or.connect.reservation.utils.Utils;
 @Controller
 @RequestMapping("/login")
 public class NaverLoginController {
-	
+
+	final Logger logger = LoggerFactory.getLogger(NaverLoginController.class);
+
 	@Autowired
 	NaverApiConfig naverApiConfig;
 	
@@ -36,21 +40,21 @@ public class NaverLoginController {
 	 */
 	@RequestMapping("/callback")
 	public String callback(
-			@RequestParam String state, 
-			@RequestParam String code, 
+			@RequestParam String state,
+			@RequestParam String code,
 			HttpServletRequest request)
 			throws UnsupportedEncodingException {
 
 		Map<String, String> responseUserToJson = null;
 		NaverUserDto naverUser = null;
-		
+
 		// 세션에 저장된 토큰을 받아옵니다.
 		String storedState = (String) request.getSession().getAttribute("state");
 		String redirectUrl = (String) request.getSession().getAttribute("prevPage");
 		
 		// 세션에 저장된 토큰과 인증을 요청해서 받은 토큰이 일치하는지 검증합니다.
 		if (!state.equals(storedState)) {
-			System.out.println("401 unauthorized");
+			//System.out.println("401 unauthorized");
 			return "redirect:/";
 		}
 		
@@ -75,17 +79,18 @@ public class NaverLoginController {
 			}
 		}
 
+		logger.debug("naverUser : {}", naverUser);
+
 		// 해당 user정보가 DB에 있는지 검증, 및 업데이트
 		Users loginedUser = service.login(naverUser);
 		
 		if(loginedUser != null) {
 			request.getSession().setAttribute("loginedUser", loginedUser);
-			
 			if (redirectUrl != null) {
-				return "redirect:/" + redirectUrl;
+				return "redirect:" + redirectUrl;
 			}
 		}
-		
+
 		return "redirect:/";
 
 	}

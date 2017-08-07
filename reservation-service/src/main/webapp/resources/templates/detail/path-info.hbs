@@ -1,0 +1,25 @@
+<!-- 오시는길 템플릿  -->
+<h3 class="store_name">{{placeName}}</h3>
+<div class="store_info">
+    <div class="store_addr_wrap">
+        <span class="fn fn-pin2"></span>
+        <p class="store_addr store_addr_bold">{{placeLot}} </p>
+        <p class="store_addr">
+            <span class="addr_old">지번</span>
+            <span class="addr_old_detail">{{placeStreet}} </span>
+        </p>
+        <p class="store_addr addr_detail">{{placeDetail}}</p>
+    </div>
+    <div class="lst_store_info_wrap">
+        <ul class="lst_store_info">
+            <li class="item"> <span class="item_lt"> <i class="fn fn-home1"></i> <span class="sr_only">홈페이지</span> </span> <span class="item_rt"> <a href="{{homepage}}" class="store_tel">{{homepage}}</a></span> </li>
+            <li class="item"> <span class="item_lt"> <i class="fn fn-call2"></i> <span class="sr_only">전화번호</span> </span> <span class="item_rt"> <a href="tel:{{tel}}" class="store_tel">{{tel}}</a></span> </li>
+            <li class="item"> <span class="item_lt"> <i class="fn fn-mail1"></i> <span class="sr_only">이메일</span> </span> <span class="item_rt"> <a href="mailto:{{email}}" class="store_tel">{{email}}</a></span> </li>
+        </ul>
+    </div>
+</div>
+<!-- [D] 모바일 브라우저에서 접근 시 column2 추가와 btn_navigation 요소 추가 -->
+<div class="bottom_common_path column2">
+    <a href="#" class="btn_path"> <i class="fn fn-path-find2"></i> <span>길찾기</span> </a>
+    <a hewf="#" class="btn_navigation before"> <i class="fn fn-navigation2"></i> <span>내비게이션</span> </a>
+</div>

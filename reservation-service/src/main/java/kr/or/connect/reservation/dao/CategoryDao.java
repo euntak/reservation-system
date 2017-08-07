@@ -21,6 +21,7 @@ import kr.or.connect.reservation.domain.Category;
 @Repository
 public class CategoryDao {
 	private NamedParameterJdbcTemplate jdbc; // sql 을 실행하기 위해 사용되는 객체
+
 	private SimpleJdbcInsert insertAction; // insert 를 편리하게 하기 위한 객체
 
 	private RowMapper<Category> rowMapper = BeanPropertyRowMapper.newInstance(Category.class);
@@ -34,7 +35,6 @@ public class CategoryDao {
 		SqlParameterSource params = new BeanPropertySqlParameterSource(category);
 		return insertAction.executeAndReturnKey(params).longValue();
 	}
-	
 	public Category selectById(long id) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("id", id);

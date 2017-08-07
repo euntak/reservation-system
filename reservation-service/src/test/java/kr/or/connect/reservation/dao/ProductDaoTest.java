@@ -43,7 +43,9 @@ public class ProductDaoTest {
 	@Test
 	public void shouldgetProductComments() {
 		long id = 1;
-		Map<String, Object> comments = dao.selectProductPreviewComments(id);
+		int limit = 3;
+		int offset = 0;
+		Map<String, Object> comments = dao.selectProductPreviewComments(id, limit, offset);
 		assertNotNull("Comments is null.", comments);
 	}
 

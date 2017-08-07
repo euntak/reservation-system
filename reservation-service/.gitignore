@@ -5,4 +5,7 @@ target
 .idea
 *.iml
 node_modules/
-lib/
+.vscode/
+src/main/resources/
+gulpfile.js
+dist/

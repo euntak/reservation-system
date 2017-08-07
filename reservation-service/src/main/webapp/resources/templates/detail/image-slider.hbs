@@ -1,0 +1,11 @@
+<!-- 이미지 슬라이더 템플릿  -->
+{{#each files}}
+    <li class="item" style="width: 414px;"> <img alt="" class="img_thumb" src="/files/{{fileId}}"> <span class="img_bg"></span>
+        <div class="visual_txt" data-id="{{lookup ../this 'id'}}">
+            <div class="visual_txt_inn">
+                <h2 class="visual_txt_tit" > <span>{{lookup ../this "name"}}</span> </h2>
+                <p class="visual_txt_dsc">{{lookup ../this "description"}}</p>
+            </div>
+        </div>
+    </li>
+{{/each}}

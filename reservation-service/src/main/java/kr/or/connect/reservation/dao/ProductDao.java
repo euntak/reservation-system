@@ -66,7 +66,7 @@ public class ProductDao {
 		
 		dataParams.put("limit", limit);
 		dataParams.put("offset", offset);
-		
+
 		List<MainPageProductDto> products = jdbc.query(ProductSqls.SELECT_ALL, dataParams, productMapper);
 		Long totalCount = jdbc.queryForObject(ProductSqls.SELECT_TOTAL_COUNT, emptyParams , Long.class);
 		
@@ -97,10 +97,13 @@ public class ProductDao {
 		return result;
 	}
 	
-	public Map<String, Object> selectProductPreviewComments(long id) {
+	public Map<String, Object> selectProductPreviewComments(long id, int limit, int offset) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		Map<String, Object> imageParam = null;
-		Map<String, ?> params = Collections.singletonMap("pid", id);
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("pid", id);
+		params.put("limit", limit);
+		params.put("offset", offset);
 		
 		List<PreviewCommentDto> previewComments = jdbc.query(ProductSqls.PREVIEW_COMMENTS_BY_PRODUCT_ID, params, commentMapper);
 		CommentTotalValueDto previewCommentTotalValue = jdbc.queryForObject(ProductSqls.PREVIEW_COMMENTS_TOTAL_VALUES, params, commentTotalMapper);
@@ -116,7 +119,7 @@ public class ProductDao {
 		
 		result.put("total", previewCommentTotalValue);
 		result.put("comments", previewComments);
-		
+
 		return result;
 	}
 	
@@ -138,4 +141,5 @@ public class ProductDao {
 		
 		return result;
 	}
+
 }

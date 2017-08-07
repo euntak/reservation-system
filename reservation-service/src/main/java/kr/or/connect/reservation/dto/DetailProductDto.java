@@ -6,6 +6,8 @@ import java.util.List;
 import kr.or.connect.reservation.domain.Price;
 
 public class DetailProductDto {
+
+	private long id;
 	private String name;
 	private String description;
 	private String event;
@@ -25,6 +27,15 @@ public class DetailProductDto {
 
 	public DetailProductDto() {
 
+	}
+
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getName() {

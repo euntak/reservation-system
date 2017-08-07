@@ -72,4 +72,16 @@ public class PreviewCommentDto {
 		this.images = images;
 	}
 
+	@Override
+	public String toString() {
+		return "PreviewCommentDto{" +
+				"cid=" + cid +
+				", score=" + score +
+				", comment='" + comment + '\'' +
+				", name='" + name + '\'' +
+				", nickname='" + nickname + '\'' +
+				", modifyDate=" + modifyDate +
+				", images=" + images +
+				'}';
+	}
 }

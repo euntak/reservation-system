@@ -1,6 +1,7 @@
 package kr.or.connect.reservation.domain;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class FileDomain {
 	private long id;
@@ -13,8 +14,8 @@ public class FileDomain {
 	private String contentType;
 	private int deleteFlag;
 
-	private Date createDate;
-	private Date modifyDate;
+	private Timestamp createDate;
+	private Timestamp modifyDate;
 
 	public long getId() {
 		return id;
@@ -72,19 +73,19 @@ public class FileDomain {
 		this.deleteFlag = deleteFlag;
 	}
 
-	public Date getCreateDate() {
+	public Timestamp getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(Date createDate) {
+	public void setCreateDate(Timestamp createDate) {
 		this.createDate = createDate;
 	}
 
-	public Date getModifyDate() {
+	public Timestamp getModifyDate() {
 		return modifyDate;
 	}
 
-	public void setModifyDate(Date modifyDate) {
+	public void setModifyDate(Timestamp modifyDate) {
 		this.modifyDate = modifyDate;
 	}
 
