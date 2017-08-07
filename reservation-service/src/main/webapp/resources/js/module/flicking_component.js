@@ -1,19 +1,6 @@
-/**
- * Flicking Module
- *
- 
-var mainSlider = new Flicking($('.visual_img'), {
-    autoStart: false, 
-    circulation: false,
-    flicking: true,
-    viewTime: 300
-}).on({
-    afterMove: this.updateMainStatus.bind(this.options)
-});
 
-*/
-define('Flicking', ['jquery', 'eg', 'utils'], function($, egComponent, util) {
-    var Flicking = util.extends(egComponent, {
+define('Flicking', ['jquery','eg','utils'], function($, egComponent, utils) {
+    var Flicking = utils.extends(egComponent, {
 
         /**
          * Default Options Object
